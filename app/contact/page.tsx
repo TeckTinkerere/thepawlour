@@ -87,13 +87,14 @@ export default async function ContactPage() {
             <SectionHeader
               eyebrow="Booking request"
               title="Send us the details"
-              intro="Fill this in and it becomes a WhatsApp message with everything we need — you can edit it before sending."
+              intro="Fill this in and it reaches us directly. If you would rather talk it through, WhatsApp is right there too."
             />
             <ul className="space-y-3 border-t border-line pt-6 text-sm text-ink-soft">
               {[
                 'We reply with a time and a price for your pet’s coat',
                 'Nothing is confirmed until you hear back from us',
                 'Tell us about skin conditions or handling worries here',
+                'Your details are only used to answer your booking',
               ].map((point) => (
                 <li key={point} className="flex items-start gap-3">
                   <Icon name="check" className="mt-1 h-3.5 w-3.5 flex-none text-clay" />

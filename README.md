@@ -12,6 +12,10 @@ to hand to whoever runs the business.
 
 Nothing in the components hard-codes copy or prices.
 
+Booking requests from the contact form are emailed to the salon through Brevo —
+see [BREVO_SETUP.md](BREVO_SETUP.md). Unconfigured, the form falls back to
+handing off to WhatsApp.
+
 ## Running locally
 
 ```bash
@@ -47,7 +51,10 @@ guide.
 | `app/` | Routes, metadata, sitemap and robots |
 | `components/sections/` | Page sections; each takes `content` and renders nothing it has no data for |
 | `components/ui/` | Design primitives — `Section`, `Button`, `Icon`, `Figure` |
+| `app/api/booking/` | Receives the booking form and delivers it through Brevo |
 | `lib/content/` | The content pipeline |
+| `lib/brevo.ts` | Brevo transactional email and contact storage |
+| `lib/booking-validation.ts` | Server-side validation, rate limiting |
 | `lib/hours.ts` | Opening-hours formatting and the live open/closed state |
 | `lib/schema.tsx` | Structured data, generated from content |
 | `content/site.json` | Every word, price and detail on the site |
