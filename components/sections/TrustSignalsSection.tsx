@@ -1,84 +1,44 @@
-'use client'
+import Icon, { type IconName } from '@/components/ui/Icon'
+import { Section, SectionHeader } from '@/components/ui/Section'
+import type { SiteContent } from '@/lib/content'
 
-import TrustSignalCard, { TrustSignalIcons } from '@/components/ui/TrustSignalCard'
-
-export default function TrustSignalsSection() {
-  const trustSignals = [
-    {
-      icon: <TrustSignalIcons.CageFree />,
-      title: 'Cage-Free & Stress-Free',
-      description: 'Your pet roams freely in our open, calming environment. No cages, no stress - just comfort and care.',
-      highlight: true
-    },
-    {
-      icon: <TrustSignalIcons.Certification />,
-      title: 'SKC Certified Groomers',
-      description: 'Our professional team holds Singapore Kennel Club certification, ensuring expert care for your furry friend.',
-      highlight: false
-    },
-    {
-      icon: <TrustSignalIcons.Premium />,
-      title: 'Premium Products',
-      description: 'We use only the finest grooming products, from gentle shampoos to therapeutic spa treatments.',
-      highlight: false
-    }
-  ]
+/**
+ * Why the salon is different, plus the numbers behind it.
+ *
+ * The stats are read from content so the homepage and the reviews block can
+ * never disagree about how many pets have been through the door.
+ */
+export default function TrustSignalsSection({ content }: { content: SiteContent }) {
+  const { highlights, stats } = content
 
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold text-gray-800 mb-6">
-            Why Choose The Pawlour?
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            We've built our reputation on three core principles that make us Singapore's 
-            most trusted boutique pet grooming salon.
-          </p>
-        </div>
+    <Section tone="shell">
+      <SectionHeader
+        eyebrow="Why The Pawlour"
+        title="A calmer way to groom"
+        intro="Three things shape every appointment we take."
+      />
 
-        {/* Trust Signals Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {trustSignals.map((signal, index) => (
-            <div 
-              key={signal.title} 
-              className="animate-fade-in-up"
-              style={{ animationDelay: `${index * 0.15}s` }}
-            >
-              <TrustSignalCard
-                icon={signal.icon}
-                title={signal.title}
-                description={signal.description}
-                highlight={signal.highlight}
-              />
+      <div className="grid gap-px border border-line bg-line md:grid-cols-3">
+        {highlights.map((highlight) => (
+          <article key={highlight.title} className="bg-paper-card p-7 md:p-8">
+            <Icon name={highlight.icon as IconName} className="h-6 w-6 text-clay" />
+            <h3 className="mt-5 text-xl">{highlight.title}</h3>
+            <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-soft">{highlight.description}</p>
+          </article>
+        ))}
+      </div>
+
+      {stats.length > 0 && (
+        <dl className="mt-10 grid grid-cols-2 gap-8 border-t border-line pt-8 md:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <dt className="eyebrow">{stat.label}</dt>
+              <dd className="font-display text-3xl text-ink md:text-4xl">{stat.value}</dd>
             </div>
           ))}
-        </div>
-
-        {/* Additional Trust Elements */}
-        <div className="mt-16 text-center">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            {[
-              { value: '5+', label: 'Years Experience' },
-              { value: '500+', label: 'Happy Pets' },
-              { value: '100%', label: 'Cage-Free' },
-              { value: 'SKC', label: 'Certified' }
-            ].map((stat, index) => (
-              <div 
-                key={stat.label}
-                className="text-center animate-fade-in-up"
-                style={{ animationDelay: `${0.45 + index * 0.1}s` }}
-              >
-                <div className="text-3xl font-bold text-terracotta mb-2 hover:scale-110 transition-transform duration-300">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+        </dl>
+      )}
+    </Section>
   )
 }

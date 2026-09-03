@@ -1,259 +1,164 @@
-import Image from 'next/image'
-import WhatsAppButton from '@/components/ui/WhatsAppButton'
+import type { Metadata } from 'next'
+import Icon, { type IconName } from '@/components/ui/Icon'
+import Figure from '@/components/ui/Figure'
+import { Section, SectionHeader } from '@/components/ui/Section'
 import TestimonialCard from '@/components/ui/TestimonialCard'
-import { PAWLOUR_WHATSAPP, WHATSAPP_MESSAGES } from '@/lib/whatsapp'
+import TeamSection from '@/components/sections/TeamSection'
+import WhatsAppButton from '@/components/ui/WhatsAppButton'
+import { getSiteContent } from '@/lib/content'
+import { WHATSAPP_MESSAGES } from '@/lib/whatsapp'
 
-export const metadata = {
-  title: 'About Us - The Pawlour | Premium Pet Grooming Singapore',
-  description: 'Learn about The Pawlour\'s journey from home-based grooming to Singapore\'s most trusted boutique pet salon. SKC certified professionals, cage-free environment.',
-  keywords: 'pet grooming singapore, about the pawlour, skc certified groomer, cage-free grooming, hougang pet salon'
+export const metadata: Metadata = {
+  title: 'About',
+  description:
+    'How The Pawlour works: a cage-free Hougang salon with SKC-certified groomers, short booking lists and products matched to each coat.',
+  alternates: { canonical: '/about' },
 }
 
-export default function AboutPage() {
-  const testimonials = [
+const CHAPTERS = [
+  {
+    title: 'From home to a salon',
+    body: 'We started with a handful of neighbourhood dogs and a bathtub. People came back because their pets came home calm, not just tidy — so we kept the pace and moved everything else.',
+  },
+  {
+    title: 'Cage-free, in practice',
+    body: 'Cage-free is a scheduling decision before it is a room. We take fewer pets a day so nobody waits their turn in a crate, and drying happens in the open with a groomer in the room.',
+  },
+  {
+    title: 'Certified, and still learning',
+    body: 'Our groomers hold Singapore Kennel Club certification and train in low-stress handling. When a pet has had enough, we stop and finish another day rather than push through it.',
+  },
+]
+
+export default async function AboutPage() {
+  const content = await getSiteContent()
+  const { business, hero, testimonials, stats } = content
+
+  const credentials: { icon: IconName; title: string; body: string }[] = [
     {
-      name: 'Sarah Chen',
-      petName: 'Buddy',
-      petBreed: 'Golden Retriever',
-      rating: 5,
-      comment: 'The Pawlour transformed Buddy from a nervous wreck to a happy, relaxed pup. The cage-free environment made all the difference!',
-      date: '2024-01-15'
+      icon: 'certificate',
+      title: 'SKC certified',
+      body: 'Singapore Kennel Club certification, the local professional standard for groomers.',
     },
     {
-      name: 'Michael Tan',
-      petName: 'Luna',
-      petBreed: 'Poodle',
-      rating: 5,
-      comment: 'Professional service with genuine care. Luna always comes home looking and smelling amazing. Highly recommend!',
-      date: '2024-01-10'
+      icon: 'paw',
+      title: 'Low-stress handling',
+      body: 'Trained to read the signs a pet is not coping, and to work around them rather than through them.',
     },
     {
-      name: 'Jennifer Lim',
-      petName: 'Max',
-      petBreed: 'Shih Tzu',
-      rating: 5,
-      comment: 'The team\'s SKC certification really shows. They know exactly how to handle Max\'s sensitive skin. Outstanding service!',
-      date: '2024-01-05'
-    }
+      icon: 'bottle',
+      title: 'Coat-matched products',
+      body: 'Hypoallergenic shampoos and conditioners chosen per pet, with allergies noted on file.',
+    },
   ]
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="py-20 bg-warm-cream">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-playfair font-bold text-gray-800 mb-6">
-              About The Pawlour
-            </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Where every pet is treated like family, and every grooming session is a stress-free, 
-              boutique experience designed with love and professional expertise.
+    <>
+      <Section tone="paper" className="border-b border-line">
+        <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="eyebrow">About</p>
+            <h1 className="mt-4 max-w-xl text-4xl md:text-5xl">Grooming at the pet&apos;s pace</h1>
+            <p className="mt-5 max-w-prose text-lg leading-relaxed text-ink-soft">
+              {business.name} is a boutique salon in {business.locality}. No cages, no crate dryers, and no
+              booking list so long that your pet spends the afternoon waiting.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Mission Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-playfair font-bold text-gray-800 mb-8">
-              Our Mission
-            </h2>
-            <p className="text-xl text-gray-600 leading-relaxed mb-8">
-              To provide Singapore's most compassionate, professional, and stress-free pet grooming experience. 
-              We believe every pet deserves to feel safe, comfortable, and loved while looking their absolute best.
-            </p>
-            <div className="bg-forest-green/10 rounded-2xl p-8">
-              <p className="text-lg text-forest-green font-medium italic">
-                "We don't just groom pets - we create positive experiences that pets and their families treasure."
-              </p>
-            </div>
+          <Figure
+            src={hero.image}
+            alt={hero.imageAlt}
+            ratio="aspect-[5/4]"
+            sizes="(max-width: 1024px) 100vw, 40vw"
+          />
+        </div>
+      </Section>
+
+      {/* Story */}
+      <Section tone="paper">
+        <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+          <div>
+            <p className="eyebrow">Our journey</p>
+            <h2 className="mt-4 text-3xl">How we got here</h2>
           </div>
-        </div>
-      </section>
 
-      {/* Story Section */}
-      <section className="py-20 bg-warm-cream">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-playfair font-bold text-gray-800 mb-8">
-                Our Journey
-              </h2>
-              
-              <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
-                <div>
-                  <h3 className="text-xl font-semibold text-forest-green mb-3">From Home to Heart</h3>
-                  <p>
-                    The Pawlour began as a simple dream in a home-based setup, where our founder discovered 
-                    the profound joy of helping pets look and feel their best. What started with a few neighborhood 
-                    dogs quickly grew into something special.
-                  </p>
+          <div className="space-y-10">
+            {CHAPTERS.map((chapter, index) => (
+              <article key={chapter.title} className="grid gap-4 border-t border-line pt-6 sm:grid-cols-[3rem_1fr]">
+                <span className="font-display text-sm text-ink-muted tabular-nums">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div className="max-w-prose">
+                  <h3 className="text-xl">{chapter.title}</h3>
+                  <p className="mt-2 leading-relaxed text-ink-soft">{chapter.body}</p>
                 </div>
-                
-                <div>
-                  <h3 className="text-xl font-semibold text-forest-green mb-3">Building Trust</h3>
-                  <p>
-                    As word spread about our gentle approach and exceptional results, we realized we needed 
-                    to expand. But growth never meant losing our core values - the warmth, personal attention, 
-                    and genuine care that made us different.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-semibold text-forest-green mb-3">Professional Excellence</h3>
-                  <p>
-                    Today, we combine that original heart with professional expertise. Our team holds 
-                    Singapore Kennel Club certification, and our boutique salon offers a cage-free 
-                    environment where pets can roam freely and feel at ease.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="https://images.pexels.com/photos/4587998/pexels-photo-4587998.jpeg"
-                  alt="The Pawlour salon interior showing cage-free environment"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </div>
+              </article>
+            ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Team Credentials Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-4xl font-playfair font-bold text-gray-800 mb-8">
-              Professional Credentials
-            </h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Our team's expertise is backed by industry-leading certifications and years of hands-on experience.
-            </p>
-          </div>
+      {/* Credentials */}
+      <Section tone="shell">
+        <SectionHeader eyebrow="Credentials" title="What backs the work" />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-8 bg-warm-cream rounded-2xl">
-              <div className="w-16 h-16 bg-forest-green rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-playfair font-semibold text-gray-800 mb-3">
-                SKC Certified
-              </h3>
-              <p className="text-gray-600">
-                Singapore Kennel Club certification ensures our groomers meet the highest professional standards.
-              </p>
-            </div>
-
-            <div className="text-center p-8 bg-warm-cream rounded-2xl">
-              <div className="w-16 h-16 bg-terracotta rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-playfair font-semibold text-gray-800 mb-3">
-                5+ Years Experience
-              </h3>
-              <p className="text-gray-600">
-                Extensive experience handling pets of all sizes, breeds, and temperaments with care and expertise.
-              </p>
-            </div>
-
-            <div className="text-center p-8 bg-warm-cream rounded-2xl">
-              <div className="w-16 h-16 bg-soft-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-playfair font-semibold text-gray-800 mb-3">
-                Continuous Learning
-              </h3>
-              <p className="text-gray-600">
-                Regular training updates on the latest grooming techniques, products, and animal care practices.
-              </p>
-            </div>
-          </div>
+        <div className="grid gap-px border border-line bg-line md:grid-cols-3">
+          {credentials.map((credential) => (
+            <article key={credential.title} className="bg-paper-card p-7 md:p-8">
+              <Icon name={credential.icon} className="h-6 w-6 text-clay" />
+              <h3 className="mt-5 text-xl">{credential.title}</h3>
+              <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-soft">{credential.body}</p>
+            </article>
+          ))}
         </div>
-      </section>
 
-      {/* Vision Section */}
-      <section className="py-20 bg-forest-green">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-playfair font-bold text-white mb-8">
-              Our Vision
-            </h2>
-            <p className="text-xl text-white/90 leading-relaxed mb-8">
-              To be Singapore's most trusted and beloved pet grooming destination, where every visit 
-              strengthens the bond between pets and their families through exceptional care and genuine compassion.
-            </p>
-            <div className="grid md:grid-cols-3 gap-8 text-white/80">
-              <div>
-                <h3 className="text-lg font-semibold text-soft-gold mb-2">Innovation</h3>
-                <p>Continuously improving our techniques and environment for better pet experiences.</p>
+        {stats.length > 0 && (
+          <dl className="mt-10 grid grid-cols-2 gap-8 border-t border-line pt-8 md:grid-cols-4">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="eyebrow">{stat.label}</dt>
+                <dd className="font-display text-3xl text-ink md:text-4xl">{stat.value}</dd>
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-soft-gold mb-2">Community</h3>
-                <p>Building lasting relationships with pet families throughout Singapore.</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-soft-gold mb-2">Excellence</h3>
-                <p>Maintaining the highest standards in every aspect of our service.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            ))}
+          </dl>
+        )}
+      </Section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-warm-cream">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-4xl font-playfair font-bold text-gray-800 mb-8">
-              What Pet Parents Say
-            </h2>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Don't just take our word for it - hear from the families who trust us with their beloved pets.
-            </p>
-          </div>
+      <TeamSection content={content} />
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {testimonials.map((testimonial, index) => (
+      {/* Testimonials — only shown once real ones are added to the content source. */}
+      {testimonials.length > 0 && (
+        <Section tone="paper">
+          <SectionHeader eyebrow="In their words" title="What pet parents say" />
+          <div className="grid gap-px border border-line bg-line md:grid-cols-3">
+            {testimonials.slice(0, 6).map((testimonial) => (
               <TestimonialCard
-                key={index}
-                name={testimonial.name}
-                petName={testimonial.petName}
-                petBreed={testimonial.petBreed}
-                rating={testimonial.rating}
-                testimonial={testimonial.comment}
+                key={`${testimonial.name}-${testimonial.quote.slice(0, 12)}`}
+                testimonial={testimonial}
               />
             ))}
           </div>
+        </Section>
+      )}
 
-          <div className="text-center">
-            <p className="text-gray-600 mb-6">Ready to join our family of happy pet parents?</p>
+      <Section tone="ink">
+        <div className="max-w-2xl">
+          <h2 className="text-3xl text-paper md:text-4xl">Come and see the room</h2>
+          <p className="mt-4 text-lg leading-relaxed text-paper/75">
+            You are welcome to look around before you book. Message us and we will suggest a quiet time.
+          </p>
+          <div className="mt-8">
             <WhatsAppButton
-              variant="primary"
+              variant="whatsapp"
               size="lg"
-              phoneNumber={PAWLOUR_WHATSAPP}
-              message={WHATSAPP_MESSAGES.general}
-              className="bg-forest-green hover:bg-forest-green/90 text-white px-8 py-4"
+              phoneNumber={business.whatsapp}
+              message={WHATSAPP_MESSAGES.inquiry}
             >
-              Book Your Pet's Appointment
+              Message us
             </WhatsAppButton>
           </div>
         </div>
-      </section>
-    </main>
+      </Section>
+    </>
   )
 }

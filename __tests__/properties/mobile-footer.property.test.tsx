@@ -1,80 +1,53 @@
 import { render, screen, cleanup } from '@testing-library/react'
 import MobileFooter from '@/components/layout/MobileFooter'
+import { getDefaultContent } from '@/lib/content'
 
-// Clean up after each test
-afterEach(() => {
-  cleanup()
-})
+const business = getDefaultContent().business
 
-describe('Mobile Footer Properties', () => {
+afterEach(cleanup)
+
+describe('Mobile booking bar', () => {
   /**
    * Feature: pawlour-website, Property 2: Mobile Footer Consistency
-   * For any page viewed on mobile viewport, the sticky footer with "Book on WhatsApp" button should be present and properly positioned
-   * Validates: Requirements 1.3, 7.2
+   * The sticky booking bar is present and pinned to the bottom on mobile.
    */
-  it('mobile footer should be present and properly positioned on all pages', () => {
-    const { container } = render(<MobileFooter />)
-    
-    // Check that mobile footer is present
-    const footer = container.querySelector('[role="contentinfo"]')
-    expect(footer).toBeInTheDocument()
-    expect(footer).toHaveAttribute('aria-label', 'Mobile booking footer')
-    
-    // Check that footer has proper positioning classes
-    expect(footer).toHaveClass('fixed', 'bottom-0', 'left-0', 'right-0', 'z-40')
-    
-    // Check that footer is mobile-only (hidden on desktop)
-    expect(footer).toHaveClass('md:hidden')
-    
-    // Check that WhatsApp button is present
-    const whatsappButton = screen.getByRole('button', { name: /contact us on whatsapp/i })
-    expect(whatsappButton).toBeInTheDocument()
-    
-    // Check that button has mobile variant styling
-    expect(whatsappButton).toHaveClass('bg-green-500')
+  it('is pinned to the bottom and hidden on desktop', () => {
+    const { container } = render(<MobileFooter business={business} />)
+
+    const bar = container.querySelector('[role="region"]')
+    expect(bar).toBeInTheDocument()
+    expect(bar).toHaveAttribute('aria-label', 'Book an appointment')
+    expect(bar).toHaveClass('fixed', 'bottom-0', 'left-0', 'right-0', 'z-40', 'md:hidden')
   })
 
-  it('mobile footer should be hidden when isVisible is false', () => {
-    const { container } = render(<MobileFooter isVisible={false} />)
-    
-    // Check that footer is not rendered when isVisible is false
-    const footer = container.querySelector('[role="contentinfo"]')
-    expect(footer).not.toBeInTheDocument()
+  it('offers both WhatsApp and a phone call', () => {
+    render(<MobileFooter business={business} />)
+
+    const whatsapp = screen.getByRole('link', { name: /book on whatsapp/i })
+    expect(whatsapp).toHaveAttribute('href', expect.stringContaining('wa.me/'))
+    expect(whatsapp).toHaveAttribute('target', '_blank')
+    expect(whatsapp).toHaveAttribute('rel', expect.stringContaining('noopener'))
+
+    const call = screen.getByRole('link', { name: /call the pawlour/i })
+    expect(call).toHaveAttribute('href', 'tel:+6586689078')
   })
 
-  it('mobile footer should have proper accessibility attributes', () => {
-    render(<MobileFooter />)
-    
-    const footer = screen.getByRole('contentinfo')
-    expect(footer).toHaveAttribute('aria-label', 'Mobile booking footer')
-    
-    const whatsappButton = screen.getByRole('button', { name: /contact us on whatsapp/i })
-    expect(whatsappButton).toHaveAttribute('aria-label')
-    expect(whatsappButton.getAttribute('aria-label')).toMatch(/contact us on whatsapp/i)
+  it('renders nothing when hidden', () => {
+    const { container } = render(<MobileFooter business={business} isVisible={false} />)
+    expect(container.querySelector('[role="region"]')).not.toBeInTheDocument()
   })
 
-  it('mobile footer should contain WhatsApp icon', () => {
-    render(<MobileFooter />)
-    
-    const whatsappButton = screen.getByRole('button', { name: /contact us on whatsapp/i })
-    const icon = whatsappButton.querySelector('svg')
-    
+  it('keeps the WhatsApp mark out of the accessibility tree', () => {
+    render(<MobileFooter business={business} />)
+
+    const icon = screen.getByRole('link', { name: /book on whatsapp/i }).querySelector('svg')
     expect(icon).toBeInTheDocument()
     expect(icon).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('mobile footer should have backdrop blur and border styling', () => {
-    const { container } = render(<MobileFooter />)
-    
-    const footerContent = container.querySelector('.bg-white\\/95')
-    expect(footerContent).toBeInTheDocument()
-    expect(footerContent).toHaveClass('backdrop-blur-sm', 'border-t', 'border-gray-200', 'shadow-lg')
-  })
-
-  it('mobile footer should have safe area support', () => {
-    const { container } = render(<MobileFooter />)
-    
-    const safeArea = container.querySelector('.h-safe-area-inset-bottom')
-    expect(safeArea).toBeInTheDocument()
+  it('clears the phone home indicator', () => {
+    const { container } = render(<MobileFooter business={business} />)
+    const bar = container.querySelector('[role="region"]') as HTMLElement
+    expect(bar).toHaveClass('pb-[env(safe-area-inset-bottom)]')
   })
 })

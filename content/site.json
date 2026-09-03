@@ -1,0 +1,302 @@
+{
+  "business": {
+    "name": "The Pawlour",
+    "tagline": "Boarding · Daycare · Spa · Grooming",
+    "description": "A cage-free boutique pet salon in Hougang. SKC-certified groomers, premium products, and unhurried care for every pet.",
+    "phone": "+65 8668 9078",
+    "whatsapp": "+6586689078",
+    "email": "",
+    "addressLine": "",
+    "locality": "Hougang",
+    "region": "Singapore",
+    "postalCode": "",
+    "country": "SG",
+    "timezone": "Asia/Singapore",
+    "url": "https://thepawlour.com",
+    "priceRange": "$$",
+    "googleMapsUrl": "https://maps.app.goo.gl/",
+    "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3095.383041413718!2d103.88747600915724!3d1.367710998613595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da164a16960a25%3A0x682d24e4c652d8b6!2sThe%20Pawlour%20(Hougang)!5e1!3m2!1sen!2ssg!4v1769756380738!5m2!1sen!2ssg",
+    "instagram": "",
+    "facebook": "",
+    "announcement": ""
+  },
+  "hero": {
+    "headline": "Cage-free grooming in Hougang",
+    "intro": "An unhurried, crate-free salon for dogs and cats. SKC-certified groomers, products matched to your pet's coat, and a booking that takes one WhatsApp message.",
+    "image": "https://images.pexels.com/photos/4587998/pexels-photo-4587998.jpeg",
+    "imageAlt": "A groomer working with a dog at The Pawlour",
+    "points": [
+      "No cages, no crate drying",
+      "SKC-certified groomers",
+      "Small daily booking list"
+    ]
+  },
+  "hours": [
+    {
+      "days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "10:00",
+      "closes": "18:00",
+      "closed": false
+    },
+    {
+      "days": [
+        "Saturday"
+      ],
+      "opens": "10:00",
+      "closes": "17:00",
+      "closed": false
+    },
+    {
+      "days": [
+        "Sunday"
+      ],
+      "opens": "11:00",
+      "closes": "16:00",
+      "closed": false
+    }
+  ],
+  "highlights": [
+    {
+      "icon": "open-space",
+      "title": "Cage-free, always",
+      "description": "Pets wait and dry in an open room, not a crate. Less waiting, less noise, less stress on the day."
+    },
+    {
+      "icon": "certificate",
+      "title": "SKC-certified groomers",
+      "description": "Singapore Kennel Club certification, plus low-stress handling training for anxious and senior pets."
+    },
+    {
+      "icon": "bottle",
+      "title": "Products chosen per coat",
+      "description": "Hypoallergenic shampoos and conditioners matched to your pet's skin and coat, not a one-bottle-fits-all."
+    }
+  ],
+  "stats": [
+    {
+      "value": "5+",
+      "label": "Years grooming"
+    },
+    {
+      "value": "500+",
+      "label": "Pets cared for"
+    },
+    {
+      "value": "100%",
+      "label": "Cage-free"
+    },
+    {
+      "value": "7 days",
+      "label": "Open weekly"
+    }
+  ],
+  "services": [
+    {
+      "type": "package",
+      "name": "Basic Grooming",
+      "summary": "Essential care for your pet's hygiene and comfort, start to finish.",
+      "includes": [
+        "Pre-grooming health check",
+        "Gentle bath with premium shampoo",
+        "Thorough blow dry",
+        "Nail trimming",
+        "Ear cleaning",
+        "Basic brush out",
+        "Sanitary trim"
+      ],
+      "pricing": {
+        "small": "From $45",
+        "medium": "From $55",
+        "large": "From $65"
+      },
+      "featured": false
+    },
+    {
+      "type": "package",
+      "name": "Full Grooming",
+      "summary": "Everything in Basic, plus breed-specific styling and finishing.",
+      "includes": [
+        "Everything in Basic Grooming",
+        "Professional breed-specific styling",
+        "Face and feet trimming",
+        "Full body styling cut",
+        "Nail filing and buffing",
+        "Teeth brushing (optional)",
+        "Premium cologne spritz",
+        "Bow or bandana finish"
+      ],
+      "pricing": {
+        "small": "From $65",
+        "medium": "From $85",
+        "large": "From $105"
+      },
+      "featured": true
+    },
+    {
+      "type": "spa",
+      "name": "Microbubble Spa",
+      "summary": "Deep cleansing therapy that lifts dirt, bacteria and allergens while moisturising the skin.",
+      "includes": [
+        "Deep pore cleansing",
+        "Improved skin health",
+        "Reduced odour",
+        "Enhanced coat shine"
+      ],
+      "price": "Add $25"
+    },
+    {
+      "type": "spa",
+      "name": "Ayurvedic Herb Spa",
+      "summary": "Traditional herbal treatment for pets with sensitive or irritated skin.",
+      "includes": [
+        "Soothes sensitive skin",
+        "Natural aromatherapy",
+        "Stress relief",
+        "Coat conditioning"
+      ],
+      "price": "Add $30"
+    },
+    {
+      "type": "addon",
+      "name": "Teeth Brushing",
+      "summary": "Gentle dental care for fresh breath.",
+      "includes": [],
+      "price": "$8"
+    },
+    {
+      "type": "addon",
+      "name": "De-shedding Treatment",
+      "summary": "Reduces shedding for up to six weeks.",
+      "includes": [],
+      "price": "$15"
+    },
+    {
+      "type": "addon",
+      "name": "Mud Mask Therapy",
+      "summary": "Detoxifying treatment for healthy skin.",
+      "includes": [],
+      "price": "$20"
+    },
+    {
+      "type": "addon",
+      "name": "Nail Colour",
+      "summary": "Pet-safe polish for special occasions.",
+      "includes": [],
+      "price": "$12"
+    },
+    {
+      "type": "addon",
+      "name": "Flea & Tick Treatment",
+      "summary": "Specialised shampoo for pest control.",
+      "includes": [],
+      "price": "$18"
+    },
+    {
+      "type": "addon",
+      "name": "Aromatherapy",
+      "summary": "Calming essential oils during the groom.",
+      "includes": [],
+      "price": "$10"
+    }
+  ],
+  "team": [],
+  "faqs": [
+    {
+      "category": "General",
+      "question": "What makes The Pawlour different from other grooming salons?",
+      "answer": "We are cage-free: your pet waits and dries in an open room rather than a crate. Our groomers are SKC-certified and trained in low-stress handling, and we book fewer pets per day so nobody is rushed."
+    },
+    {
+      "category": "Services",
+      "question": "What services do you offer?",
+      "answer": "Basic Grooming, Full Grooming, and spa treatments such as the Microbubble and Ayurvedic Herb spas. Add-ons include teeth brushing, de-shedding, mud mask therapy and flea & tick treatment."
+    },
+    {
+      "category": "Booking",
+      "question": "How do I book an appointment?",
+      "answer": "Message us on WhatsApp with your pet's breed and the day you have in mind, and we will confirm a slot. You can also call us during opening hours."
+    },
+    {
+      "category": "Pet care",
+      "question": "How should I prepare my pet for grooming?",
+      "answer": "A light meal two to three hours before, and a toilet break just before you arrive. Tell us about any skin conditions, injuries, or handling sensitivities when you book so we can plan the session."
+    },
+    {
+      "category": "Services",
+      "question": "Are your products safe for sensitive skin?",
+      "answer": "Yes. We use hypoallergenic products and match the shampoo and conditioner to your pet's coat and skin. Let us know about allergies at booking and we will adjust."
+    },
+    {
+      "category": "Booking",
+      "question": "What is your cancellation policy?",
+      "answer": "We ask for 24 hours' notice. Cancellations inside 24 hours may be charged 50% of the service. Tell us as early as you can if something comes up and we will do our best to move things around."
+    },
+    {
+      "category": "Pet care",
+      "question": "How often should my pet be groomed?",
+      "answer": "Most coats do well on a four to eight week cycle, though it depends on breed and coat type. We will suggest a schedule for your pet after the first visit."
+    },
+    {
+      "category": "General",
+      "question": "Do you offer mobile grooming?",
+      "answer": "Not at the moment. All grooming happens at our Hougang salon. Message us if you would like to be told when that changes."
+    }
+  ],
+  "testimonials": [],
+  "loyalty": {
+    "enabled": true,
+    "title": "The Pawlour Club",
+    "intro": "Our loyalty programme for regulars. Join free on your next visit, earn on every groom, and redeem against future appointments.",
+    "benefits": [
+      {
+        "title": "Earn on every visit",
+        "description": "One point for every dollar spent on grooming services."
+      },
+      {
+        "title": "Redeem against grooms",
+        "description": "Turn points into discounts on your next appointment."
+      },
+      {
+        "title": "Birthday month treat",
+        "description": "A complimentary add-on during your pet's birthday month."
+      },
+      {
+        "title": "Priority booking",
+        "description": "First pick of weekend and peak-period slots."
+      },
+      {
+        "title": "Referral rewards",
+        "description": "Points when a friend books their first groom with us."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Join",
+        "description": "Sign up free at your next appointment."
+      },
+      {
+        "title": "Groom",
+        "description": "Book as usual, in salon."
+      },
+      {
+        "title": "Earn",
+        "description": "Points are added after each visit."
+      },
+      {
+        "title": "Redeem",
+        "description": "Use them against your next groom."
+      }
+    ]
+  },
+  "reviews": {
+    "rating": "4.8",
+    "count": "100",
+    "url": "https://maps.app.goo.gl/"
+  }
+}

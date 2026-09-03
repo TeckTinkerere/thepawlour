@@ -1,287 +1,166 @@
+import type { Metadata } from 'next'
+import Icon from '@/components/ui/Icon'
+import { Section, SectionHeader } from '@/components/ui/Section'
 import WhatsAppButton from '@/components/ui/WhatsAppButton'
-import { PAWLOUR_WHATSAPP, WHATSAPP_MESSAGES } from '@/lib/whatsapp'
+import { ActionLink } from '@/components/ui/Button'
+import { getSiteContent } from '@/lib/content'
+import { WHATSAPP_MESSAGES } from '@/lib/whatsapp'
 
-export const metadata = {
-  title: 'Services & Pricing - The Pawlour | Pet Grooming Singapore',
-  description: 'Comprehensive pet grooming services in Singapore. Basic grooming, full grooming, spa treatments, and add-ons. Cage-free environment in Hougang.',
-  keywords: 'pet grooming services singapore, dog grooming prices, spa treatments pets, hougang pet grooming, cage-free grooming'
+export const metadata: Metadata = {
+  title: 'Services & pricing',
+  description:
+    'Grooming packages, spa treatments and add-ons at The Pawlour, Hougang. Prices by pet size, cage-free salon, SKC-certified groomers.',
+  alternates: { canonical: '/services' },
 }
 
-export default function ServicesPage() {
-  const groomingServices = [
-    {
-      category: 'Basic Grooming',
-      description: 'Essential care for your pet\'s hygiene and comfort',
-      services: [
-        'Pre-grooming health check',
-        'Gentle bath with premium shampoo',
-        'Thorough blow dry',
-        'Nail trimming',
-        'Ear cleaning',
-        'Basic brush out',
-        'Sanitary trim'
-      ],
-      pricing: {
-        small: 'From $45',
-        medium: 'From $55',
-        large: 'From $65'
-      }
-    },
-    {
-      category: 'Full Grooming',
-      description: 'Complete grooming experience with professional styling',
-      services: [
-        'Everything in Basic Grooming',
-        'Professional breed-specific styling',
-        'Face and feet trimming',
-        'Full body styling cut',
-        'Nail filing and buffing',
-        'Teeth brushing (optional)',
-        'Premium cologne spritz',
-        'Bow or bandana finishing touch'
-      ],
-      pricing: {
-        small: 'From $65',
-        medium: 'From $85',
-        large: 'From $105'
-      }
-    }
-  ]
-
-  const spaServices = [
-    {
-      name: 'Microbubble Spa',
-      description: 'Deep cleansing therapy that removes dirt, bacteria, and allergens while moisturizing the skin',
-      benefits: ['Deep pore cleansing', 'Improved skin health', 'Reduced odor', 'Enhanced coat shine'],
-      price: 'Add $25'
-    },
-    {
-      name: 'Ayurvedic Herb Spa',
-      description: 'Natural herbal treatment using traditional ingredients for therapeutic benefits',
-      benefits: ['Soothes sensitive skin', 'Natural aromatherapy', 'Stress relief', 'Coat conditioning'],
-      price: 'Add $30'
-    }
-  ]
-
-  const addOnServices = [
-    { name: 'Teeth Brushing', price: '$8', description: 'Gentle dental care for fresh breath' },
-    { name: 'De-shedding Treatment', price: '$15', description: 'Reduces shedding for up to 6 weeks' },
-    { name: 'Mud Mask Therapy', price: '$20', description: 'Detoxifying treatment for healthy skin' },
-    { name: 'Nail Art', price: '$12', description: 'Fun colored nail polish for special occasions' },
-    { name: 'Flea & Tick Treatment', price: '$18', description: 'Specialized shampoo for pest control' },
-    { name: 'Aromatherapy Add-on', price: '$10', description: 'Calming essential oils during grooming' }
-  ]
+export default async function ServicesPage() {
+  const content = await getSiteContent()
+  const packages = content.services.filter((service) => service.type === 'package')
+  const spa = content.services.filter((service) => service.type === 'spa')
+  const addons = content.services.filter((service) => service.type === 'addon')
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="py-20 bg-warm-cream">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-playfair font-bold text-gray-800 mb-6">
-              Services & Pricing
-            </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Comprehensive grooming services tailored to your pet's needs. 
-              All services performed in our cage-free, stress-free environment.
-            </p>
-          </div>
-        </div>
-      </section>
+    <>
+      <Section tone="paper" className="border-b border-line">
+        <p className="eyebrow">Services</p>
+        <h1 className="mt-4 max-w-2xl text-4xl md:text-5xl">Services &amp; pricing</h1>
+        <p className="mt-5 max-w-prose text-lg leading-relaxed text-ink-soft">
+          Everything below happens in one open room, at your pet&apos;s pace. Prices start from the figures shown
+          and settle once we have seen the coat — message us with a breed and we will quote before you commit.
+        </p>
+      </Section>
 
-      {/* Grooming Services Table */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-playfair font-bold text-gray-800 text-center mb-16">
-              Grooming Packages
-            </h2>
+      {/* Packages */}
+      <Section tone="paper">
+        <SectionHeader eyebrow="Packages" title="Grooming packages" />
 
-            <div className="grid lg:grid-cols-2 gap-8">
-              {groomingServices.map((service, index) => (
-                <div key={service.category} className="bg-warm-cream rounded-2xl p-8">
-                  <h3 className="text-2xl font-playfair font-bold text-gray-800 mb-4">
-                    {service.category}
-                  </h3>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
+        <div className="grid gap-px border border-line bg-line lg:grid-cols-2">
+          {packages.map((service) => (
+            <article key={service.name} className="flex flex-col bg-paper-card p-7 md:p-9">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="text-2xl">{service.name}</h3>
+                {service.featured && <span className="eyebrow text-clay">Most booked</span>}
+              </div>
+              <p className="mt-3 leading-relaxed text-ink-soft">{service.summary}</p>
 
-                  {/* Services List */}
-                  <div className="mb-8">
-                    <h4 className="font-semibold text-gray-800 mb-4">What's Included:</h4>
-                    <ul className="space-y-2">
-                      {service.services.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-start">
-                          <svg className="w-5 h-5 text-forest-green mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-gray-700">{item}</span>
-                        </li>
+              <h4 className="eyebrow mt-8 mb-4 border-t border-line pt-6">What&apos;s included</h4>
+              <ul className="space-y-2">
+                {service.includes.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[0.95rem] text-ink-soft">
+                    <Icon name="check" className="mt-1 h-3.5 w-3.5 flex-none text-clay" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              {service.pricing && (
+                <div className="mt-auto pt-8">
+                  <h4 className="eyebrow mb-4">Price by size</h4>
+                  <dl className="grid grid-cols-3 gap-4 border-t border-line pt-4">
+                    {[
+                      ['Small', service.pricing.small, 'Up to 15kg'],
+                      ['Medium', service.pricing.medium, '15–30kg'],
+                      ['Large', service.pricing.large, 'Over 30kg'],
+                    ]
+                      .filter(([, price]) => Boolean(price))
+                      .map(([label, price, weight]) => (
+                        <div key={label}>
+                          <dt className="eyebrow">{label}</dt>
+                          <dd className="mt-1 font-display text-lg text-ink">{price}</dd>
+                          <dd className="text-xs text-ink-muted">{weight}</dd>
+                        </div>
                       ))}
-                    </ul>
-                  </div>
-
-                  {/* Pricing Table */}
-                  <div className="bg-white rounded-xl p-6">
-                    <h4 className="font-semibold text-gray-800 mb-4">Pricing by Size:</h4>
-                    <div className="grid grid-cols-3 gap-4 text-center">
-                      <div>
-                        <div className="text-sm text-gray-600 mb-1">Small</div>
-                        <div className="text-lg font-bold text-forest-green">{service.pricing.small}</div>
-                        <div className="text-xs text-gray-500">Up to 15kg</div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-gray-600 mb-1">Medium</div>
-                        <div className="text-lg font-bold text-forest-green">{service.pricing.medium}</div>
-                        <div className="text-xs text-gray-500">15-30kg</div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-gray-600 mb-1">Large</div>
-                        <div className="text-lg font-bold text-forest-green">{service.pricing.large}</div>
-                        <div className="text-xs text-gray-500">30kg+</div>
-                      </div>
-                    </div>
-                  </div>
+                  </dl>
                 </div>
-              ))}
-            </div>
-          </div>
+              )}
+            </article>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Spa Treatments */}
-      <section className="py-20 bg-warm-cream">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-playfair font-bold text-gray-800 mb-6">
-                Luxury Spa Treatments
-              </h2>
-              <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-                Enhance your pet's grooming experience with our therapeutic spa treatments, 
-                designed for ultimate relaxation and skin health.
-              </p>
-            </div>
+      {/* Spa */}
+      {spa.length > 0 && (
+        <Section tone="shell">
+          <SectionHeader
+            eyebrow="Spa"
+            title="Spa treatments"
+            intro="Added to any grooming package, usually for skin comfort rather than looks."
+          />
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {spaServices.map((spa, index) => (
-                <div key={spa.name} className="bg-white rounded-2xl p-8 shadow-lg">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-2xl font-playfair font-bold text-gray-800">
-                      {spa.name}
-                    </h3>
-                    <span className="text-xl font-bold text-terracotta bg-terracotta/10 px-4 py-2 rounded-full">
-                      {spa.price}
-                    </span>
-                  </div>
-                  
-                  <p className="text-gray-600 mb-6">{spa.description}</p>
-                  
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-3">Benefits:</h4>
-                    <ul className="space-y-2">
-                      {spa.benefits.map((benefit, benefitIndex) => (
-                        <li key={benefitIndex} className="flex items-center">
-                          <svg className="w-4 h-4 text-terracotta mr-3" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                          </svg>
-                          <span className="text-gray-700">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          <div className="grid gap-px border border-line bg-line md:grid-cols-2">
+            {spa.map((treatment) => (
+              <article key={treatment.name} className="bg-paper-card p-7 md:p-9">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="text-xl">{treatment.name}</h3>
+                  <span className="font-display text-lg text-clay">{treatment.price}</span>
                 </div>
-              ))}
-            </div>
+                <p className="mt-3 leading-relaxed text-ink-soft">{treatment.summary}</p>
+                {treatment.includes.length > 0 && (
+                  <ul className="mt-5 flex flex-wrap gap-2 border-t border-line pt-5">
+                    {treatment.includes.map((benefit) => (
+                      <li key={benefit} className="border border-line px-2.5 py-1 text-xs text-ink-muted">
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* Add-ons */}
+      {addons.length > 0 && (
+        <Section tone="paper">
+          <SectionHeader eyebrow="Add-ons" title="Add to any groom" />
+
+          <ul className="divide-y divide-line border-y border-line">
+            {addons.map((addon) => (
+              <li key={addon.name} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4">
+                <span className="font-display text-lg text-ink">{addon.name}</span>
+                <span className="order-3 w-full text-sm text-ink-muted md:order-2 md:w-auto md:flex-1 md:px-8">
+                  {addon.summary}
+                </span>
+                <span className="order-2 font-display text-lg text-clay md:order-3">{addon.price}</span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-8 max-w-prose border-l-2 border-clay pl-5 text-[0.95rem] leading-relaxed text-ink-soft">
+            Prices vary with breed, coat condition, size and temperament. A matted or badly tangled coat takes
+            longer and is quoted separately — we will always tell you before we start, not after.
+          </p>
+        </Section>
+      )}
+
+      <Section tone="ink">
+        <div className="max-w-2xl">
+          <h2 className="text-3xl text-paper md:text-4xl">Not sure which one your pet needs?</h2>
+          <p className="mt-4 text-lg leading-relaxed text-paper/75">
+            Send us the breed and a photo of the coat as it is now. We will tell you what it needs and what it
+            costs — no obligation to book.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <WhatsAppButton
+              variant="whatsapp"
+              size="lg"
+              phoneNumber={content.business.whatsapp}
+              message={WHATSAPP_MESSAGES.pricing}
+            >
+              Get a quote
+            </WhatsAppButton>
+            <ActionLink
+              href="/contact"
+              variant="ghost"
+              size="lg"
+              className="border border-paper/30 text-paper hover:bg-paper hover:text-ink"
+            >
+              Contact &amp; hours
+            </ActionLink>
           </div>
         </div>
-      </section>
-
-      {/* Add-on Services */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-playfair font-bold text-gray-800 mb-6">
-                Add-on Services
-              </h2>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Customize your pet's grooming experience with our additional services.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {addOnServices.map((addon, index) => (
-                <div key={addon.name} className="bg-warm-cream rounded-xl p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-lg font-semibold text-gray-800">
-                      {addon.name}
-                    </h3>
-                    <span className="text-lg font-bold text-forest-green">
-                      {addon.price}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 text-sm">{addon.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Disclaimer */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="bg-white rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                Important Pricing Information
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Prices may vary based on your pet's breed, coat condition, size, and temperament. 
-                We'll provide a personalized quote during consultation. All services include our 
-                signature cage-free experience and premium products.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-forest-green">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-playfair font-bold text-white mb-6">
-              Ready to Book Your Pet's Spa Day?
-            </h2>
-            <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Contact us on WhatsApp for personalized pricing and to schedule your appointment. 
-              Our team is ready to pamper your furry friend!
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <WhatsAppButton
-                variant="primary"
-                size="lg"
-                phoneNumber={PAWLOUR_WHATSAPP}
-                message={WHATSAPP_MESSAGES.pricing}
-                className="bg-soft-gold hover:bg-soft-gold/90 text-gray-800 font-semibold px-8 py-4"
-              >
-                Get Pricing Quote
-              </WhatsAppButton>
-              
-              <WhatsAppButton
-                variant="secondary"
-                size="lg"
-                phoneNumber={PAWLOUR_WHATSAPP}
-                message={WHATSAPP_MESSAGES.general}
-                className="border-2 border-white text-white hover:bg-white hover:text-forest-green font-semibold px-8 py-4"
-              >
-                Book Appointment
-              </WhatsAppButton>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+      </Section>
+    </>
   )
 }
