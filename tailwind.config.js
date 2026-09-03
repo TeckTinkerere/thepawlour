@@ -1,3 +1,11 @@
+/**
+ * Design tokens for The Pawlour.
+ *
+ * The palette is taken from the salon's own logo: black ink on warm paper, with
+ * a single muted clay accent. No gradients, no glows — the brand mark is a
+ * letterpress stamp and the site is built to sit next to it.
+ */
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -8,68 +16,53 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'warm-cream': '#F5F5F4',
-        'terracotta': '#D2691E',
-        'forest-green': '#228B22',
-        'soft-gold': '#FFD700',
+        ink: {
+          DEFAULT: '#1A1917', // headings, primary buttons, the logo itself
+          soft: '#4A4741',    // body copy
+          muted: '#7B776E',   // captions, labels
+        },
+        paper: {
+          DEFAULT: '#FBFAF7', // page background
+          shell: '#F2EFE8',   // alternating sections
+          card: '#FFFFFF',
+        },
+        line: {
+          DEFAULT: '#E3DFD6', // hairline rules and card borders
+          strong: '#CFC9BC',
+        },
+        clay: {
+          DEFAULT: '#A4553A', // the one accent: links, active states, prices
+          soft: '#F0E4DE',
+        },
+        whatsapp: '#128C4A', // brand green, only on WhatsApp actions
       },
       fontFamily: {
-        'playfair': ['Playfair Display', 'serif'],
-        'inter': ['Inter', 'sans-serif'],
-        'geist': ['Geist', 'sans-serif'],
+        // Barlow echoes the wordmark; Inter carries everything else.
+        display: ['var(--font-barlow)', 'Barlow', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: ['var(--font-inter)', 'Inter', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
-      animation: {
-        'fade-in': 'fadeIn 0.6s ease-in-out',
-        'fade-in-up': 'fadeInUp 0.6s ease-out',
-        'fade-in-down': 'fadeInDown 0.6s ease-out',
-        'slide-in-left': 'slideInLeft 0.5s ease-out',
-        'slide-in-right': 'slideInRight 0.5s ease-out',
-        'scale-in': 'scaleIn 0.5s ease-out',
-        'pulse-soft': 'pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 3s ease-in-out infinite',
-        'glow': 'glow 2s ease-in-out infinite',
+      letterSpacing: {
+        wordmark: '0.18em',
+      },
+      maxWidth: {
+        prose: '68ch',
+      },
+      borderRadius: {
+        DEFAULT: '2px',
+        card: '3px',
+      },
+      boxShadow: {
+        // One shadow, used sparingly for overlays only.
+        raised: '0 1px 2px rgba(26, 25, 23, 0.06), 0 8px 24px -12px rgba(26, 25, 23, 0.18)',
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeInDown: {
-          '0%': { opacity: '0', transform: 'translateY(-20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        slideInLeft: {
-          '0%': { opacity: '0', transform: 'translateX(-30px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(30px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
-        },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
-        },
-        pulseSoft: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.7' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        glow: {
-          '0%, 100%': { boxShadow: '0 0 5px rgba(210, 105, 30, 0.5)' },
-          '50%': { boxShadow: '0 0 20px rgba(210, 105, 30, 0.8)' },
+        rise: {
+          from: { opacity: '0', transform: 'translateY(8px)' },
+          to: { opacity: '1', transform: 'none' },
         },
       },
-      transitionDuration: {
-        '350': '350ms',
-        '400': '400ms',
+      animation: {
+        rise: 'rise 0.4s ease-out both',
       },
     },
   },

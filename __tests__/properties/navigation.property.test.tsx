@@ -1,118 +1,93 @@
 import { render, screen, cleanup } from '@testing-library/react'
-import fc from 'fast-check'
 import Navbar from '@/components/layout/Navbar'
+import { getDefaultContent } from '@/lib/content'
 
-// Mock next/navigation
 jest.mock('next/navigation', () => ({
   usePathname: jest.fn(() => '/'),
 }))
 
-// Clean up after each test
-afterEach(() => {
-  cleanup()
-})
+const business = getDefaultContent().business
 
-describe('Navigation Properties', () => {
+afterEach(cleanup)
+
+describe('Navigation', () => {
   /**
    * Feature: pawlour-website, Property 3: Navigation Consistency
-   * For any page in the website, the navigation structure and styling should be identical across all pages
-   * Validates: Requirements 1.4
+   * The navigation structure is identical on every page.
    */
-  it('navigation structure should be consistent across all pages', () => {
-    const pathnames = ['/', '/about', '/services', '/contact']
-    
-    pathnames.forEach(pathname => {
-      // Mock the pathname for this test
-      const { usePathname } = require('next/navigation')
+  it('renders the same structure on every page', () => {
+    const { usePathname } = require('next/navigation')
+
+    for (const pathname of ['/', '/about', '/services', '/contact']) {
       usePathname.mockReturnValue(pathname)
-      
-      const { container } = render(<Navbar />)
-      
-      // Check that navigation contains required elements
-      const nav = container.querySelector('nav')
+      const { container } = render(<Navbar business={business} />)
+
+      const nav = container.querySelector('[role="navigation"]')
       expect(nav).toBeInTheDocument()
-      expect(nav).toHaveAttribute('role', 'navigation')
-      
-      // Check logo is present
-      const logos = screen.getAllByLabelText(/the pawlour.*home/i)
-      expect(logos.length).toBeGreaterThan(0)
-      
-      // Check all navigation links are present (using getAllByRole to handle duplicates)
-      const servicesLinks = screen.getAllByRole('link', { name: /services/i })
-      const aboutLinks = screen.getAllByRole('link', { name: /about/i })
-      const contactLinks = screen.getAllByRole('link', { name: /contact/i })
-      
-      expect(servicesLinks.length).toBeGreaterThan(0)
-      expect(aboutLinks.length).toBeGreaterThan(0)
-      expect(contactLinks.length).toBeGreaterThan(0)
-      
-      // Check WhatsApp button is present
-      const whatsappButtons = screen.getAllByRole('button', { name: /contact us on whatsapp/i })
-      expect(whatsappButtons.length).toBeGreaterThan(0)
-      
-      // Check mobile menu button is present
-      const mobileMenuButtons = screen.getAllByLabelText(/toggle navigation menu/i)
-      expect(mobileMenuButtons.length).toBeGreaterThan(0)
-      
-      // Check navigation has consistent styling classes
-      expect(nav).toHaveClass('fixed', 'top-0', 'left-0', 'right-0', 'z-50')
-      
+      expect(nav).toHaveAttribute('aria-label', 'Main navigation')
+
+      expect(screen.getAllByLabelText(/the pawlour - home/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('link', { name: /services/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('link', { name: /about/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('link', { name: /contact/i }).length).toBeGreaterThan(0)
+
+      // Booking is a link to wa.me, not a button that calls window.open.
+      const booking = screen.getAllByRole('link', { name: /book/i })
+      expect(booking.length).toBeGreaterThan(0)
+      expect(booking[0]).toHaveAttribute('href', expect.stringContaining('wa.me/'))
+
       cleanup()
-    })
+    }
   })
 
   /**
-   * Feature: pawlour-website, Property 4: Navigation Link Functionality  
-   * For any navigation link clicked, the website should navigate to the correct corresponding page
-   * Validates: Requirements 1.5
+   * Feature: pawlour-website, Property 4: Navigation Link Functionality
    */
-  it('navigation links should point to correct pages', () => {
-    const linkData = [
+  it('points each link at its page', () => {
+    for (const { href, label } of [
       { href: '/services', label: 'Services' },
       { href: '/about', label: 'About' },
-      { href: '/contact', label: 'Contact' }
-    ]
-    
-    linkData.forEach(data => {
-      render(<Navbar />)
-      
-      const links = screen.getAllByRole('link', { name: new RegExp(data.label, 'i') })
-      // Check that at least one link exists and all links point to the correct href
+      { href: '/contact', label: 'Contact' },
+    ]) {
+      render(<Navbar business={business} />)
+
+      const links = screen.getAllByRole('link', { name: new RegExp(label, 'i') })
       expect(links.length).toBeGreaterThan(0)
-      links.forEach(link => {
-        expect(link).toHaveAttribute('href', data.href)
-      })
-      
+      links.forEach((link) => expect(link).toHaveAttribute('href', href))
+
       cleanup()
-    })
+    }
   })
 
-  it('should have proper accessibility attributes', () => {
-    render(<Navbar />)
-    
-    const nav = screen.getByRole('navigation')
-    expect(nav).toHaveAttribute('aria-label', 'Main navigation')
-    
-    const skipLink = screen.getByText('Skip to main content')
-    expect(skipLink).toHaveClass('skip-link')
-    
-    const mobileMenuButton = screen.getByLabelText(/toggle navigation menu/i)
-    expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'false')
-    expect(mobileMenuButton).toHaveAttribute('aria-controls', 'mobile-menu')
+  it('exposes the menu toggle to assistive technology', () => {
+    render(<Navbar business={business} />)
+
+    expect(screen.getByText('Skip to main content')).toHaveClass('skip-link')
+
+    const toggle = screen.getByLabelText(/open navigation menu/i)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(toggle).toHaveAttribute('aria-controls', 'mobile-menu')
   })
 
-  it('should highlight active page in navigation', () => {
+  it('marks the current page', () => {
     const { usePathname } = require('next/navigation')
     usePathname.mockReturnValue('/about')
-    
-    render(<Navbar />)
-    
-    const aboutLinks = screen.getAllByRole('link', { name: /about/i })
-    // Check that at least one about link has the active state
-    const activeLinks = aboutLinks.filter(link => 
-      link.getAttribute('aria-current') === 'page' &&
-      link.classList.contains('text-terracotta')
-    )
-    expect(activeLinks.length).toBeGreaterThan(0)
+
+    render(<Navbar business={business} />)
+
+    const active = screen
+      .getAllByRole('link', { name: /about/i })
+      .filter((link) => link.getAttribute('aria-current') === 'page')
+
+    expect(active.length).toBeGreaterThan(0)
+  })
+
+  it('shows an announcement only when the content supplies one', () => {
+    const { container } = render(<Navbar business={business} />)
+    expect(container.textContent).not.toContain('Closed for renovation')
+    cleanup()
+
+    render(<Navbar business={business} announcement="Closed for renovation" />)
+    expect(screen.getByText('Closed for renovation')).toBeInTheDocument()
   })
 })

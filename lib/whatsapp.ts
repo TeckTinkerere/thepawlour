@@ -11,21 +11,25 @@ export interface BookingData {
 }
 
 /**
- * Formats phone number for WhatsApp URL
- * Ensures Singapore country code (65) is included
+ * Normalises a phone number into the digits wa.me expects.
+ *
+ * Singapore numbers are eight digits, and landlines start with 6 — the previous
+ * version treated that leading 6 as half a country code and stripped it, so
+ * "68123456" became "658123456" and produced a dead WhatsApp link. Only a
+ * genuine 65 country code is now recognised.
  */
 export function formatPhoneNumber(phone: string): string {
-  // Remove any non-digit characters
   const cleaned = phone.replace(/\D/g, '')
-  
-  // Ensure it starts with Singapore country code (65)
-  if (cleaned.startsWith('65')) {
-    return cleaned
-  } else if (cleaned.startsWith('6')) {
-    return `65${cleaned.substring(1)}`
-  } else {
-    return `65${cleaned}`
-  }
+
+  // A local eight-digit number: add the country code.
+  if (cleaned.length === 8) return `65${cleaned}`
+
+  // Already carries the 65 country code.
+  if (cleaned.length === 10 && cleaned.startsWith('65')) return cleaned
+
+  // Anything else (an overseas number, or a typo) is passed through with a
+  // country code only when it clearly lacks one.
+  return cleaned.startsWith('65') ? cleaned : `65${cleaned}`
 }
 
 /**

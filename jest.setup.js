@@ -20,10 +20,11 @@ jest.mock('next/navigation', () => ({
   },
 }))
 
-// Mock Next.js Image component
+// Mock Next.js Image. Next-only props are stripped so React does not warn
+// about unknown DOM attributes such as `priority` and `fill`.
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props) => {
+  default: ({ priority, fill, quality, placeholder, blurDataURL, loader, unoptimized, sizes, ...props }) => {
     // eslint-disable-next-line @next/next/no-img-element
     return <img {...props} />
   },
